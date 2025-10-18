@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling", "editables"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pursuit-mcp"
+version = "0.1.0"
+description = "MCP server providing Pursuit integration for PureScript documentation search"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastmcp>=2.12.4",
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.15.0",
+]
+
+[project.scripts]
+pursuit-mcp = "pursuit_mcp.server:mcp.run"

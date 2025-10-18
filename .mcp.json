@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "serena": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena",
+        "start-mcp-server"
+      ]
+    },
+    "nixos": {
+      "command": "nix",
+      "args": ["run", "github:utensils/mcp-nixos", "--"]
+    },
+    "hoogle-mcp": {
+      "command": "nix",
+      "args": [
+        "run",
+        "github:gawakawa/hoogle-mcp",
+        "--"
+      ]
+    }
+  }
+}
