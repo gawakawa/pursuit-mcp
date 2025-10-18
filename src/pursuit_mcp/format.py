@@ -1,6 +1,6 @@
 """Format Pursuit search results for display."""
 
-from .search import PursuitResult
+from .types import PursuitResult
 
 
 def format(results: list[PursuitResult]) -> str:

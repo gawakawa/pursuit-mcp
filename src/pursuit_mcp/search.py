@@ -1,26 +1,8 @@
 """Pursuit API client for searching PureScript documentation."""
 
-from typing import TypedDict, Any
-
 import httpx
 
-
-class PursuitResultInfo(TypedDict, total=False):
-    """Information about a Pursuit search result."""
-
-    tag: str  # "package", "module", or "declaration"
-    contents: Any  # Varies depending on tag
-
-
-class PursuitResult(TypedDict, total=False):
-    """Single Pursuit search result."""
-
-    package: str
-    version: str
-    markup: str
-    text: str
-    info: PursuitResultInfo
-    url: str
+from .types import PursuitResult
 
 
 BASE_URL = "https://pursuit.purescript.org/search"
