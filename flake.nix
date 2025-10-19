@@ -2,6 +2,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
   };
 
   outputs =
@@ -9,6 +10,7 @@
       self,
       nixpkgs,
       flake-utils,
+      mcp-servers-nix,
       ...
     }:
     flake-utils.lib.eachDefaultSystem (
@@ -28,6 +30,13 @@
           ++ (with pkgs; [
             # Additional development tools can be added here
           ]);
+
+        mcpConfig = mcp-servers-nix.lib.mkConfig pkgs {
+          programs = {
+            nixos.enable = true;
+            serena.enable = true;
+          };
+        };
       in
       {
         packages = {
@@ -50,13 +59,18 @@
             paths = ciPackages;
           };
 
+          mcp-config = mcpConfig;
+
           default = self.packages.${system}.pursuit-mcp;
         };
 
         devShells.default = pkgs.mkShell {
           buildInputs = devPackages;
 
-          shellHook = '''';
+          shellHook = ''
+            cat ${mcpConfig} > .mcp.json
+            echo "Generated .mcp.json"
+          '';
         };
       }
     );

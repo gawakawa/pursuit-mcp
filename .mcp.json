@@ -1,25 +1,16 @@
 {
   "mcpServers": {
-    "serena": {
-      "command": "uvx",
-      "args": [
-        "--from",
-        "git+https://github.com/oraios/serena",
-        "serena",
-        "start-mcp-server"
-      ]
-    },
     "nixos": {
-      "command": "nix",
-      "args": ["run", "github:utensils/mcp-nixos", "--"]
+      "args": [],
+      "command": "/nix/store/z94hnz0jyc2qzppp56hjay6wyvs974kv-mcp-nixos-1.0.2/bin/mcp-nixos",
+      "env": {}
     },
-    "hoogle-mcp": {
-      "command": "nix",
+    "serena": {
       "args": [
-        "run",
-        "github:gawakawa/hoogle-mcp",
-        "--"
-      ]
+        "start-mcp-server"
+      ],
+      "command": "/nix/store/1ih2a0ygzishlfnygqn23k1zq7w7qs9l-serena-0.1.4-unstable-2025-10-17/bin/serena",
+      "env": {}
     }
   }
 }

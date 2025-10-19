@@ -11,3 +11,6 @@ wheels/
 
 # direnv
 .direnv/
+
+# MCP configuration (auto-generated)
+.mcp.json
