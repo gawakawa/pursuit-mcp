@@ -16,6 +16,18 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         python = pkgs.python312;
+
+        ciPackages = with pkgs; [
+          python312
+          ruff
+          uv
+        ];
+
+        devPackages =
+          ciPackages
+          ++ (with pkgs; [
+            # Additional development tools can be added here
+          ]);
       in
       {
         packages = {
@@ -33,15 +45,16 @@
             ];
           };
 
+          ci = pkgs.buildEnv {
+            name = "ci";
+            paths = ciPackages;
+          };
+
           default = self.packages.${system}.pursuit-mcp;
         };
 
         devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            python312
-            ruff
-            uv
-          ];
+          buildInputs = devPackages;
 
           shellHook = '''';
         };

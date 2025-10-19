@@ -1,11 +1,36 @@
-name: Ruff
-on: [ push, pull_request ]
+name: "CI"
+
+on:
+  push:
+  pull_request:
+
 jobs:
-  ruff:
+  tests:
+    name: Build and Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/ruff-action@v3
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
         with:
-          args: "format --check --diff"
-      - uses: astral-sh/ruff-action@v3
+          github_access_token: ${{ secrets.GH_TOKEN }}
+
+      - name: Install CI dependencies
+        run: nix profile add .#ci
+
+      - name: Install Python dependencies
+        run: uv sync --all-groups
+
+      - name: Format check
+        run: ruff format --check --diff
+
+      - name: Lint check
+        run: ruff check
+
+      - name: Build project
+        run: uv build
+
+      - name: Run tests
+        run: uv run pytest -v
