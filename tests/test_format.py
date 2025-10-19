@@ -20,8 +20,8 @@ def test_format_package_result():
             "markup": "<p>Core library</p>",
             "text": "Core library",
             "info": {
-                "tag": "PackageResult",
-                "contents": False,
+                "type": "package",
+                "deprecated": False,
             },
             "url": "https://pursuit.purescript.org/packages/purescript-prelude",
         }
@@ -32,8 +32,7 @@ def test_format_package_result():
                 "package": "purescript-prelude",
                 "version": "6.0.1",
                 "docs": "Core library",
-                "type": "PackageResult",
-                "contents": False,
+                "type": "package",
                 "url": "https://pursuit.purescript.org/packages/purescript-prelude",
             }
         ],
@@ -51,8 +50,8 @@ def test_format_module_result():
             "markup": "<p>Array operations</p>",
             "text": "Array operations",
             "info": {
-                "tag": "ModuleResult",
-                "contents": "Data.Array",
+                "type": "module",
+                "module": "Data.Array",
             },
             "url": "https://pursuit.purescript.org/packages/purescript-prelude/docs/Data.Array",
         }
@@ -63,8 +62,7 @@ def test_format_module_result():
                 "package": "purescript-prelude",
                 "version": "6.0.1",
                 "docs": "Array operations",
-                "type": "ModuleResult",
-                "contents": "Data.Array",
+                "type": "module",
                 "url": "https://pursuit.purescript.org/packages/purescript-prelude/docs/Data.Array",
             }
         ],
@@ -82,8 +80,11 @@ def test_format_declaration_result():
             "markup": "<p>Map function</p>",
             "text": "Map function",
             "info": {
-                "tag": "DeclarationResult",
-                "contents": ["value", "Data.Functor", "map", "(a -> b) -> f a -> f b"],
+                "type": "declaration",
+                "module": "Data.Functor",
+                "title": "map",
+                "typeOrValue": "ValueLevel",
+                "typeText": "(a -> b) -> f a -> f b",
             },
             "url": "https://pursuit.purescript.org/packages/purescript-prelude/docs/Data.Functor#v:map",
         }
@@ -94,8 +95,7 @@ def test_format_declaration_result():
                 "package": "purescript-prelude",
                 "version": "6.0.1",
                 "docs": "Map function",
-                "type": "DeclarationResult",
-                "contents": ["value", "Data.Functor", "map", "(a -> b) -> f a -> f b"],
+                "type": "declaration",
                 "url": "https://pursuit.purescript.org/packages/purescript-prelude/docs/Data.Functor#v:map",
             }
         ],
@@ -113,8 +113,8 @@ def test_format_multiple_results():
             "markup": "<p>Package</p>",
             "text": "Package",
             "info": {
-                "tag": "PackageResult",
-                "contents": False,
+                "type": "package",
+                "deprecated": False,
             },
             "url": "https://pursuit.purescript.org/packages/purescript-prelude",
         },
@@ -124,8 +124,8 @@ def test_format_multiple_results():
             "markup": "<p>Module</p>",
             "text": "Module",
             "info": {
-                "tag": "ModuleResult",
-                "contents": "Data.Array",
+                "type": "module",
+                "module": "Data.Array",
             },
             "url": "https://pursuit.purescript.org/packages/purescript-arrays/docs/Data.Array",
         },
@@ -136,16 +136,14 @@ def test_format_multiple_results():
                 "package": "purescript-prelude",
                 "version": "6.0.1",
                 "docs": "Package",
-                "type": "PackageResult",
-                "contents": False,
+                "type": "package",
                 "url": "https://pursuit.purescript.org/packages/purescript-prelude",
             },
             {
                 "package": "purescript-arrays",
                 "version": "7.0.0",
                 "docs": "Module",
-                "type": "ModuleResult",
-                "contents": "Data.Array",
+                "type": "module",
                 "url": "https://pursuit.purescript.org/packages/purescript-arrays/docs/Data.Array",
             },
         ],
@@ -163,8 +161,11 @@ def test_format_declaration_with_null_type():
             "markup": "<p>Some declaration</p>",
             "text": "Some declaration",
             "info": {
-                "tag": "DeclarationResult",
-                "contents": ["value", "Data.Module", "something", None],
+                "type": "declaration",
+                "module": "Data.Module",
+                "title": "something",
+                "typeOrValue": "TypeLevel",
+                "typeText": None,
             },
             "url": "https://pursuit.purescript.org/packages/purescript-prelude/docs/Data.Module#v:something",
         }
@@ -175,8 +176,7 @@ def test_format_declaration_with_null_type():
                 "package": "purescript-prelude",
                 "version": "6.0.1",
                 "docs": "Some declaration",
-                "type": "DeclarationResult",
-                "contents": ["value", "Data.Module", "something", None],
+                "type": "declaration",
                 "url": "https://pursuit.purescript.org/packages/purescript-prelude/docs/Data.Module#v:something",
             }
         ],

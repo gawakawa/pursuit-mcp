@@ -33,10 +33,8 @@ def format(results: list[PursuitResult]) -> FormatOutput:
         # Result info (package/module/declaration)
         if "info" in result:
             info = result["info"]
-            if isinstance(info, dict) and "tag" in info:
-                formatted_result["type"] = info["tag"]
-                if "contents" in info:
-                    formatted_result["contents"] = info["contents"]
+            if isinstance(info, dict) and "type" in info:
+                formatted_result["type"] = info["type"]
 
         # URL to the result
         if "url" in result:
