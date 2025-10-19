@@ -33,6 +33,7 @@ def test_format_package_result():
                 "version": "6.0.1",
                 "docs": "Core library",
                 "type": "package",
+                "deprecated": False,
                 "url": "https://pursuit.purescript.org/packages/purescript-prelude",
             }
         ],
@@ -63,6 +64,7 @@ def test_format_module_result():
                 "version": "6.0.1",
                 "docs": "Array operations",
                 "type": "module",
+                "module": "Data.Array",
                 "url": "https://pursuit.purescript.org/packages/purescript-prelude/docs/Data.Array",
             }
         ],
@@ -96,6 +98,9 @@ def test_format_declaration_result():
                 "version": "6.0.1",
                 "docs": "Map function",
                 "type": "declaration",
+                "module": "Data.Functor",
+                "title": "map",
+                "typeText": "(a -> b) -> f a -> f b",
                 "url": "https://pursuit.purescript.org/packages/purescript-prelude/docs/Data.Functor#v:map",
             }
         ],
@@ -137,6 +142,7 @@ def test_format_multiple_results():
                 "version": "6.0.1",
                 "docs": "Package",
                 "type": "package",
+                "deprecated": False,
                 "url": "https://pursuit.purescript.org/packages/purescript-prelude",
             },
             {
@@ -144,6 +150,7 @@ def test_format_multiple_results():
                 "version": "7.0.0",
                 "docs": "Module",
                 "type": "module",
+                "module": "Data.Array",
                 "url": "https://pursuit.purescript.org/packages/purescript-arrays/docs/Data.Array",
             },
         ],
@@ -177,6 +184,9 @@ def test_format_declaration_with_null_type():
                 "version": "6.0.1",
                 "docs": "Some declaration",
                 "type": "declaration",
+                "module": "Data.Module",
+                "title": "something",
+                "typeText": None,
                 "url": "https://pursuit.purescript.org/packages/purescript-prelude/docs/Data.Module#v:something",
             }
         ],

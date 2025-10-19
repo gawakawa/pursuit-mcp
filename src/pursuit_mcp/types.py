@@ -83,9 +83,14 @@ class FormattedResult(TypedDict, total=False):
     package: str
     version: str
     docs: str  # Plain text documentation
-    type: str  # Result type tag (PackageResult, ModuleResult, DeclarationResult)
-    contents: bool | str | list[str | None]  # Varies by result type
+    type: str  # Result type (package, module, declaration)
     url: str
+    # Declaration-specific fields
+    module: str  # Module name (for declaration and module types)
+    title: str  # Function/type name (for declaration types)
+    typeText: str | None  # Type signature (for declaration types)
+    # Package-specific fields
+    deprecated: bool  # Deprecation status (for package types)
 
 
 class FormatOutput(TypedDict):

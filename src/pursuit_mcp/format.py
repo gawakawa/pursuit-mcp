@@ -34,7 +34,26 @@ def format(results: list[PursuitResult]) -> FormatOutput:
         if "info" in result:
             info = result["info"]
             if isinstance(info, dict) and "type" in info:
-                formatted_result["type"] = info["type"]
+                result_type = info["type"]
+                formatted_result["type"] = result_type
+
+                # Extract type-specific information
+                if result_type == "declaration":
+                    # For declarations, include module, title, and typeText
+                    if "module" in info:
+                        formatted_result["module"] = info["module"]
+                    if "title" in info:
+                        formatted_result["title"] = info["title"]
+                    if "typeText" in info:
+                        formatted_result["typeText"] = info["typeText"]
+                elif result_type == "module":
+                    # For modules, include module name
+                    if "module" in info:
+                        formatted_result["module"] = info["module"]
+                elif result_type == "package":
+                    # For packages, include deprecated status
+                    if "deprecated" in info:
+                        formatted_result["deprecated"] = info["deprecated"]
 
         # URL to the result
         if "url" in result:
