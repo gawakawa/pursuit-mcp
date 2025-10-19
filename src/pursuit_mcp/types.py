@@ -71,3 +71,25 @@ class PursuitResult(TypedDict):
     text: str  # Plain text documentation
     info: PursuitResultInfo
     url: str  # Direct link to the documentation
+
+
+class FormattedResult(TypedDict, total=False):
+    """A formatted Pursuit search result.
+
+    All fields are optional as the formatter only includes fields present
+    in the original result.
+    """
+
+    package: str
+    version: str
+    docs: str  # Plain text documentation
+    type: str  # Result type tag (PackageResult, ModuleResult, DeclarationResult)
+    contents: bool | str | list[str | None]  # Varies by result type
+    url: str
+
+
+class FormatOutput(TypedDict):
+    """Output format for formatted search results."""
+
+    results: list[FormattedResult]
+    count: int

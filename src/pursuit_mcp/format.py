@@ -1,25 +1,23 @@
 """Format Pursuit search results for display."""
 
-from .types import PursuitResult
+from .types import PursuitResult, FormatOutput, FormattedResult
 
 
-def format(results: list[PursuitResult]) -> str:
-    """Format Pursuit search results as JSON string.
+def format(results: list[PursuitResult]) -> FormatOutput:
+    """Format Pursuit search results as structured dict.
 
     Args:
         results: List of Pursuit search results
 
     Returns:
-        JSON string representation of results
+        Formatted results dictionary with results list and count
     """
-    import json
-
     if not results:
-        return json.dumps({"results": [], "count": 0})
+        return {"results": [], "count": 0}
 
-    formatted_results = []
+    formatted_results: list[FormattedResult] = []
     for result in results:
-        formatted_result = {}
+        formatted_result: FormattedResult = {}
 
         # Package and version information
         if "package" in result:
@@ -46,6 +44,4 @@ def format(results: list[PursuitResult]) -> str:
 
         formatted_results.append(formatted_result)
 
-    return json.dumps(
-        {"results": formatted_results, "count": len(results)}, ensure_ascii=False
-    )
+    return {"results": formatted_results, "count": len(results)}

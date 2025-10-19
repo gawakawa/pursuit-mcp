@@ -12,13 +12,15 @@ async def search_pursuit(query: str, limit: int = 10) -> str:
         limit: Maximum number of results to return (default: 10)
 
     Returns:
-        Formatted search results from Pursuit
+        Formatted search results from Pursuit as JSON string
     """
+    import json
+
     from .format import format
     from .search import search
 
     results = await search(query, limit=limit)
-    return format(results)
+    return json.dumps(format(results), ensure_ascii=False)
 
 
 if __name__ == "__main__":
