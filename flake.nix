@@ -2,6 +2,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
     mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
   };
 
@@ -12,6 +13,8 @@
         "x86_64-linux"
         "aarch64-darwin"
       ];
+
+      imports = [ inputs.treefmt-nix.flakeModule ];
 
       perSystem =
         {
@@ -75,6 +78,14 @@
               cat ${mcpConfig} > .mcp.json
               echo "Generated .mcp.json"
             '';
+          };
+
+          treefmt = {
+            programs = {
+              nixfmt.enable = true;
+              ruff-format.enable = true;
+              ruff-check.enable = true;
+            };
           };
         };
     };

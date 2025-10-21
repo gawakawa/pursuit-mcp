@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cd ${CLAUDE_PROJECT_DIR} && ruff format && ruff check"
+            "command": "cd ${CLAUDE_PROJECT_DIR} && nix fmt && ruff check"
           }
         ]
       }
