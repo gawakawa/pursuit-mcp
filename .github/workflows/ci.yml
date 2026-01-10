@@ -33,7 +33,7 @@ jobs:
         run: uv sync --all-groups
 
       - name: Lint check
-        run: uv run ruff check
+        run: ruff check
 
       - name: Build project
         run: uv build

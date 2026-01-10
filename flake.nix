@@ -36,6 +36,7 @@
           ciPackages = with pkgs; [
             python312
             uv
+            ruff
           ];
 
           devPackages =
