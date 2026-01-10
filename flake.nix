@@ -46,12 +46,17 @@
               # Additional development tools can be added here
             ]);
 
-          mcpConfig = inputs.mcp-servers-nix.lib.mkConfig pkgs {
-            programs = {
-              nixos.enable = true;
-              serena.enable = true;
-            };
-          };
+          mcpConfig =
+            inputs.mcp-servers-nix.lib.mkConfig
+              (import inputs.mcp-servers-nix.inputs.nixpkgs {
+                inherit system;
+              })
+              {
+                programs = {
+                  nixos.enable = true;
+                  serena.enable = true;
+                };
+              };
         in
         {
           packages = {
