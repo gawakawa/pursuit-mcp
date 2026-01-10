@@ -4,6 +4,10 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     treefmt-nix.url = "github:numtide/treefmt-nix";
     mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
+    git-hooks-nix = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -14,11 +18,14 @@
         "aarch64-darwin"
       ];
 
-      imports = [ inputs.treefmt-nix.flakeModule ];
+      imports = [
+        inputs.treefmt-nix.flakeModule
+        inputs.git-hooks-nix.flakeModule
+      ];
 
       perSystem =
         {
-          self',
+          config,
           pkgs,
           system,
           ...
@@ -28,12 +35,12 @@
 
           ciPackages = with pkgs; [
             python312
-            ruff
             uv
           ];
 
           devPackages =
             ciPackages
+            ++ config.pre-commit.settings.enabledPackages
             ++ (with pkgs; [
               # Additional development tools can be added here
             ]);
@@ -68,13 +75,22 @@
 
             mcp-config = mcpConfig;
 
-            default = self'.packages.pursuit-mcp;
+            default = config.packages.pursuit-mcp;
+          };
+
+          pre-commit.settings.hooks = {
+            treefmt.enable = true;
+            statix.enable = true;
+            deadnix.enable = true;
+            actionlint.enable = true;
+            ruff.enable = true;
           };
 
           devShells.default = pkgs.mkShell {
             buildInputs = devPackages;
 
             shellHook = ''
+              ${config.pre-commit.shellHook}
               cat ${mcpConfig} > .mcp.json
               echo "Generated .mcp.json"
             '';
@@ -82,9 +98,14 @@
 
           treefmt = {
             programs = {
-              nixfmt.enable = true;
-              ruff-format.enable = true;
-              ruff-check.enable = true;
+              nixfmt = {
+                enable = true;
+                includes = [ "*.nix" ];
+              };
+              ruff-format = {
+                enable = true;
+                includes = [ "*.py" ];
+              };
             };
           };
         };

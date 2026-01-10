@@ -14,3 +14,6 @@ wheels/
 
 # MCP configuration (auto-generated)
 .mcp.json
+
+# Pre-commit hooks (auto-generated)
+.pre-commit-config.yaml

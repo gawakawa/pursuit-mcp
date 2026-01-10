@@ -1,8 +1,14 @@
 name: "CI"
 
 on:
-  push:
   pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   tests:
@@ -27,7 +33,7 @@ jobs:
         run: uv sync --all-groups
 
       - name: Lint check
-        run: ruff check
+        run: uv run ruff check
 
       - name: Build project
         run: uv build
