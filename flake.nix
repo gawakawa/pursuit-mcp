@@ -13,107 +13,10 @@
   outputs =
     inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [
-        "x86_64-linux"
-        "aarch64-darwin"
-      ];
-
       imports = [
         inputs.treefmt-nix.flakeModule
         inputs.git-hooks-nix.flakeModule
+        ./flakes
       ];
-
-      perSystem =
-        {
-          config,
-          pkgs,
-          system,
-          ...
-        }:
-        let
-          python = pkgs.python312;
-
-          ciPackages = with pkgs; [
-            python312
-            uv
-            ruff
-          ];
-
-          devPackages =
-            ciPackages
-            ++ config.pre-commit.settings.enabledPackages
-            ++ (with pkgs; [
-              # Additional development tools can be added here
-            ]);
-
-          mcpConfig =
-            inputs.mcp-servers-nix.lib.mkConfig
-              (import inputs.mcp-servers-nix.inputs.nixpkgs {
-                inherit system;
-              })
-              {
-                programs = {
-                  nixos.enable = true;
-                  serena.enable = true;
-                };
-              };
-        in
-        {
-          packages = {
-            pursuit-mcp = python.pkgs.buildPythonApplication {
-              pname = "pursuit-mcp";
-              version = "0.1.0";
-              src = ./.;
-
-              pyproject = true;
-              build-system = [ python.pkgs.hatchling ];
-              dependencies = with python.pkgs; [
-                fastmcp
-                httpx
-                mcp
-              ];
-            };
-
-            ci = pkgs.buildEnv {
-              name = "ci";
-              paths = ciPackages;
-            };
-
-            mcp-config = mcpConfig;
-
-            default = config.packages.pursuit-mcp;
-          };
-
-          pre-commit.settings.hooks = {
-            treefmt.enable = true;
-            statix.enable = true;
-            deadnix.enable = true;
-            actionlint.enable = true;
-            ruff.enable = true;
-          };
-
-          devShells.default = pkgs.mkShell {
-            buildInputs = devPackages;
-
-            shellHook = ''
-              ${config.pre-commit.shellHook}
-              cat ${mcpConfig} > .mcp.json
-              echo "Generated .mcp.json"
-            '';
-          };
-
-          treefmt = {
-            programs = {
-              nixfmt = {
-                enable = true;
-                includes = [ "*.nix" ];
-              };
-              ruff-format = {
-                enable = true;
-                includes = [ "*.py" ];
-              };
-            };
-          };
-        };
     };
 }
