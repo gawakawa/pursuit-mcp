@@ -3,55 +3,28 @@
 from typing import TypedDict, Literal, Union
 
 
-class PackageResultContents(TypedDict):
-    """Contents of a PackageResult.
-
-    The boolean indicates whether the package is deprecated.
-    """
-
-    deprecated: bool
-
-
-class ModuleResultContents(TypedDict):
-    """Contents of a ModuleResult.
-
-    Contains the module name.
-    """
-
-    module_name: str
-
-
-class DeclarationResultContents(TypedDict):
-    """Contents of a DeclarationResult.
-
-    Contains information about a function, type, or value declaration.
-    """
-
-    namespace: str
-    module_name: str
-    title: str
-    type_signature: str | None
-
-
 class PackageResult(TypedDict):
     """A Pursuit search result for a package."""
 
-    tag: Literal["PackageResult"]
-    contents: bool  # Deprecation status
+    type: Literal["package"]
+    deprecated: bool
 
 
 class ModuleResult(TypedDict):
     """A Pursuit search result for a module."""
 
-    tag: Literal["ModuleResult"]
-    contents: str  # Module name
+    type: Literal["module"]
+    module: str
 
 
 class DeclarationResult(TypedDict):
     """A Pursuit search result for a declaration (function, type, etc.)."""
 
-    tag: Literal["DeclarationResult"]
-    contents: list[str | None]  # [namespace, module_name, title, type_signature]
+    type: Literal["declaration"]
+    module: str
+    title: str
+    typeOrValue: str
+    typeText: str | None
 
 
 # Union type for all possible result info types

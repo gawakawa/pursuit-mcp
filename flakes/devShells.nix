@@ -5,18 +5,24 @@ _: {
       devPackages =
         config.ciPackages
         ++ config.pre-commit.settings.enabledPackages
-        ++ (with pkgs; [
-          # Additional development tools can be added here
-        ]);
+        ++ [
+          config.devVirtualenv
+        ];
     in
     {
       devShells.default = pkgs.mkShell {
-        buildInputs = devPackages;
+        packages = devPackages;
+
+        env = {
+          UV_NO_SYNC = "1";
+          UV_PYTHON = config.python.interpreter;
+          UV_PYTHON_DOWNLOADS = "never";
+        };
 
         shellHook = ''
           ${config.pre-commit.shellHook}
-          cat ${config.packages.mcp-config} > .mcp.json
-          echo "Generated .mcp.json"
+          unset PYTHONPATH
+          export REPO_ROOT=$(git rev-parse --show-toplevel)
         '';
       };
     };
