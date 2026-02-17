@@ -27,7 +27,7 @@ jobs:
       - name: Setup Cachix
         uses: cachix/cachix-action@v16
         with:
-          name: pursuit-mcp
+          name: gawakawa
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
       - name: Check
