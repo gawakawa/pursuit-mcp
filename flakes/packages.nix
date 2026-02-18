@@ -22,7 +22,16 @@
           paths = config.ciPackages;
         };
 
-        default = config.prodVirtualenv;
+        default =
+          pkgs.runCommand "pursuit-mcp"
+            {
+              nativeBuildInputs = [ pkgs.makeWrapper ];
+            }
+            ''
+              mkdir -p $out/bin
+              makeWrapper ${config.prodVirtualenv}/bin/pursuit-mcp $out/bin/pursuit-mcp \
+                --unset PYTHONPATH
+            '';
       };
     };
 }
